@@ -54,31 +54,31 @@ PARAVIRT="none"
 
 # UBUNTU
 UBUNTU_RELEASE="releases.ubuntu.com/oracular/ubuntu-24.10-desktop-amd64.iso"
-UBUNTU_DAILY="cdimages.ubuntu.com/daily-live/current/plucky-desktop-arm64.iso"
+UBUNTU_DAILY="cdimages.ubuntu.com/daily-live/current/questing-desktop-amd64.iso"
 
 # KUBUNTU
 KUBUNTU_RELEASE="cdimage.ubuntu.com/kubuntu/releases/24.10/release/kubuntu-24.10-desktop-amd64.iso"
-KUBUNTU_DAILY="cdimage.ubuntu.com/kubuntu/daily-live/current/plucky-desktop-amd64.iso"
+KUBUNTU_DAILY="cdimage.ubuntu.com/kubuntu/daily-live/current/questing-desktop-amd64.iso"
 
 # LUBUNTU
 LUBUNTU_RELEASE="cdimages.ubuntu.com/lubuntu/releases/24.10/release/lubuntu-24.10-desktop-amd64.iso"
-LUBUNTU_DAILY="cdimages.ubuntu.com/lubuntu/daily-live/current/plucky-desktop-amd64.iso"
+LUBUNTU_DAILY="cdimages.ubuntu.com/lubuntu/daily-live/current/questing-desktop-amd64.iso"
 
 # UBUNTU BUDGIE
 BUDGIE_RELEASE="cdimages.ubuntu.com/ubuntu-budgie/releases/24.10/release/ubuntu-budgie-24.10-desktop-amd64.iso"
-BUDGIE_DAILY="cdimages.ubuntu.com/ubuntu-budgie/daily-live/current/plucky-desktop-amd64.iso"
+BUDGIE_DAILY="cdimages.ubuntu.com/ubuntu-budgie/daily-live/current/questing-desktop-amd64.iso"
 
 # EDUBUNTU
 EDUBUNTU_RELEASE="cdimages.ubuntu.com/edubuntu/releases/24.10/release/edubuntu-24.10-desktop-amd64.iso"
-EDUBUNTU_DAILY="cdimages.ubuntu.com/edubuntu/daily-live/current/plucky-desktop-amd64.iso"
+EDUBUNTU_DAILY="cdimages.ubuntu.com/edubuntu/daily-live/current/questing-desktop-amd64.iso"
 
 # UBUNTU UNITY
 UNITY_RELEASE="cdimages.ubuntu.com/ubuntu-unity/releases/24.10/release/ubuntu-unity-24.10-desktop-amd64.iso"
-UNITY_DAILY="cdimages.ubuntu.com/ubuntu-unity/daily-live/current/plucky-desktop-amd64.iso"
+UNITY_DAILY="cdimages.ubuntu.com/ubuntu-unity/daily-live/current/questing-desktop-amd64.iso"
 
 # UBUNTU CINNAMON
 CINNAMON_RELEASE="cdimages.ubuntu.com/ubuntucinnamon/releases/24.10/release/ubuntucinnamon-24.10-desktop-amd64.iso"
-CINNAMON_DAILY="cdimages.ubuntu.com/ubuntucinnamon/daily-live/current/plucky-desktop-amd64.iso"
+CINNAMON_DAILY="cdimages.ubuntu.com/ubuntucinnamon/daily-live/current/questing-desktop-amd64.iso"
 
 # UBUNTU STUDIO
 STUDIO_RELEASE="cdimages.ubuntu.com/ubuntustudio/releases/24.10/release/ubuntustudio-24.10-desktop-amd64.iso"
@@ -87,7 +87,7 @@ STUDIO_DAILY="cdimages.ubuntu.com/ubuntustudio/releases/24.04/release/ubuntustud
 
 # XUBUNTU
 XUBUNTU_RELEASE="cdimages.ubuntu.com/xubuntu/releases/24.10/release/xubuntu-24.10-desktop-amd64.iso"
-XUBUNTU_DAILY="cdimages.ubuntu.com/xubuntu/daily-live/current/plucky-desktop-amd64.iso"
+XUBUNTU_DAILY="cdimages.ubuntu.com/xubuntu/daily-live/current/questing-desktop-amd64.iso"
 
 
 #############################################
