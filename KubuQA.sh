@@ -99,6 +99,40 @@ XUBUNTU_DAILY="cdimages.ubuntu.com/xubuntu/daily-live/current/questing-desktop-a
 # FUNCTIONS
 # ---------
 
+# Show an introductory dialog on first run only
+show_intro_dialog() {
+    # Determine config directory to store first run marker
+    local config_dir
+    local marker_file
+
+    config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}/KubuQA"
+    marker_file="$config_dir/first_run_done"
+
+    # If marker exists, we have already shown the intro
+    if [ -f "$marker_file" ]; then
+        return
+    fi
+
+    mkdir -p "$config_dir"
+
+    if kdialog --title "Welcome to KubuQA" --msgbox \
+"KubuQA will help you set up a VirtualBox test environment for Kubuntu and other Ubuntu flavors.
+
+On this first run, the script will:
+  - Check and, if needed, install required tools (kdialog, zsync, wget, VirtualBox/VBoxManage).
+  - Ask which Ubuntu flavor you want to test, and whether you prefer a current release or daily build.
+  - Download or update the selected ISO into your download directory.
+  - Create or reuse a VirtualBox VM and Virtual Disk Image (VDI).
+  - Offer to launch a test installation in VirtualBox.
+
+You can adjust defaults later via the KubuQA config file or command line options.
+
+Press OK to continue."
+    then
+        touch "$marker_file"
+    fi
+}
+
 # Print a help message
 usage() {
     echo "This script automates downloading the latest daily ISO for Kubuntu and spinning up a VM in VirtualBox."
@@ -303,6 +337,7 @@ check_and_install_tool kdialog kdialog
 check_and_install_tool zsync zsync
 check_and_install_tool wget wget
 check_and_install_tool VBoxManage virtualbox
+show_intro_dialog
 
 # Parse command line arguments
 # TODO Validate the input
