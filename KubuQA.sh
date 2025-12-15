@@ -99,6 +99,40 @@ XUBUNTU_DAILY="cdimages.ubuntu.com/xubuntu/daily-live/current/resolute-desktop-a
 # FUNCTIONS
 # ---------
 
+# Show an introductory dialog on first run only
+show_intro_dialog() {
+    # Determine config directory to store first run marker
+    local config_dir
+    local marker_file
+
+    config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}/KubuQA"
+    marker_file="$config_dir/first_run_done"
+
+    # If marker exists, we have already shown the intro
+    if [ -f "$marker_file" ]; then
+        return
+    fi
+
+    mkdir -p "$config_dir"
+
+    if kdialog --title "Welcome to KubuQA" --msgbox \
+"KubuQA will help you set up a VirtualBox test environment for Kubuntu and other Ubuntu flavors.
+
+On this first run, the script will:
+  - Check and, if needed, install required tools (kdialog, zsync, wget, VirtualBox/VBoxManage).
+  - Ask which Ubuntu flavor you want to test, and whether you prefer a current release or daily build.
+  - Download or update the selected ISO into your download directory.
+  - Create or reuse a VirtualBox VM and Virtual Disk Image (VDI).
+  - Offer to launch a test installation in VirtualBox.
+
+You can adjust defaults later via the KubuQA config file or command line options.
+
+Press OK to continue."
+    then
+        touch "$marker_file"
+    fi
+}
+
 # Print a help message
 usage() {
     echo "This script automates downloading the latest daily ISO for Kubuntu and spinning up a VM in VirtualBox."
@@ -295,6 +329,57 @@ ISO_DOWNLOAD_DIR="$ISO_DOWNLOAD_DIR/$FLAVOR"
 VDI_FILEPATH="$HOME/VirtualBox VMs/$VM_NAME/$VM_NAME.vdi"
 
 }
+
+# Validate user provided settings and input
+validate_integer() {
+    local value="$1"
+
+    case $value in
+        ''|*[!0-9]*)
+            return 1
+            ;;
+        0)
+            return 1
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+}
+
+validate_settings() {
+    # Validate CPU cores
+    if ! validate_integer "$VM_CPU_CORES"; then
+        kdialog --error "The number of CPU cores must be a positive integer. You provided: \"$VM_CPU_CORES\""
+        echo "The number of CPU cores must be a positive integer. You provided: \"$VM_CPU_CORES\""
+        exit 1
+    fi
+
+    # Validate RAM size
+    if ! validate_integer "$VM_RAM"; then
+        kdialog --error "The amount of RAM must be a positive integer (in MB). You provided: \"$VM_RAM\""
+        echo "The amount of RAM must be a positive integer (in MB). You provided: \"$VM_RAM\""
+        exit 1
+    fi
+
+    # Validate ISO download directory
+    if [ -n "$ISO_DOWNLOAD_DIR" ] && [ -e "$ISO_DOWNLOAD_DIR" ] && [ ! -d "$ISO_DOWNLOAD_DIR" ]; then
+        kdialog --error "The ISO download path exists but is not a directory: \"$ISO_DOWNLOAD_DIR\""
+        echo "The ISO download path exists but is not a directory: \"$ISO_DOWNLOAD_DIR\""
+        exit 1
+    fi
+
+    # Validate paravirtualization provider
+    case $PARAVIRT in
+        ""|none|kvm)
+            ;;
+        *)
+            kdialog --error "Invalid paravirtualization provider: \"$PARAVIRT\". Supported values are \"none\" or \"kvm\"."
+            echo "Invalid paravirtualization provider: \"$PARAVIRT\". Supported values are \"none\" or \"kvm\"."
+            exit 1
+            ;;
+    esac
+}
 # MAIN
 # ----
 
@@ -303,9 +388,9 @@ check_and_install_tool kdialog kdialog
 check_and_install_tool zsync zsync
 check_and_install_tool wget wget
 check_and_install_tool VBoxManage virtualbox
+show_intro_dialog
 
 # Parse command line arguments
-# TODO Validate the input
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --config)        if source "$2"; then
@@ -335,11 +420,13 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+
 # Check whether various components exist. If not or if requested, (re)create
 choose_flavor
 check_existing_vm
 check_existing_vdi
 check_existing_iso
+validate_settings
 
 # Prompt the user to launch a test install using VirtualBox
 if kdialog --yesno "Launch a Test Install using Virtual Box?"; then
